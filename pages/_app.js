@@ -1,36 +1,24 @@
-import Layout from "../components/Layout";
-import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import {
-  getDefaultWallets,
-  RainbowKitProvider,
-  connectorsForWallets,
-  wallet,
-} from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
+import Layout from "../components/Layout";
+import "../styles/globals.css";
 
-const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 
 const { chains, provider } = configureChains(
   [chain.polygon],
-  [alchemyProvider({ alchemyId }), publicProvider()]
+  [infuraProvider({ infuraId }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
   appName: "web3rsvp",
   chains,
 });
-
-// const { connectors } = connectorsForWallets([
-//   {
-//     appName: "web3rsvp",
-//     wallets: [wallet.metaMask({ chains }), wallet.walletConnect({ chains })],
-//   },
-// ]);
 
 const wagmiClient = createClient({
   autoConnect: true,
